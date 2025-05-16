@@ -1,0 +1,32 @@
+name: CI - Build Microservices
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name:  Checkout code
+        uses: actions/checkout@v3
+
+      - name:  Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: 🛠 Build Auth Service
+        run: docker build -t auth-service ./auth-service
+
+      - name: 🛠 Build Billing Service
+        run: docker build -t billing-service ./billing-service
+
+      - name: 🛠 Build Patient Service
+        run: docker build -t patient-service ./Patient-Service
+
+      - name: 🛠 Build API Gateway
+        run: docker build -t api-gateway ./api-gateway
+
+      - name: 🛠 Build Analytics Service
+        run: docker build -t analytics-service ./analytics-service
